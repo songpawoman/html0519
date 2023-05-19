@@ -13,6 +13,7 @@
             background: yellow;
             margin: auto;
             position: relative;/*자식 때문에 명시함*/
+            overflow: hidden;
         }
     </style>
     <script>
@@ -20,11 +21,27 @@
         let targetX=0;
         let targetY=0;
         let h1;//정보창
+        let a=0.1;
         
         //키보드 누를때마다  box를 움직일 함수 정의
         function move(){
-            box.style.left=targetX+"px";
-            box.style.top=targetY+"px";
+            //아래의 코드가 수행되기 전에, 올바르지 않은 targetX, targetY 값은
+            //걸러내자.. 
+            if(targetX<-400){ //좌측버튼을 아무리 눌러도 -400으로 유지..
+                targetX=-400;
+            }else if(targetX > 0){
+                targetX=0;
+            }
+
+            //위아래
+            if(targetY>0){
+                targetY=0;
+            }else if(targetY< -400){
+                targetY=-400;
+            }
+
+            box.style.left=parseFloat(box.style.left)+a*(targetX-parseFloat(box.style.left))+"px";
+            box.style.top=parseFloat(box.style.top)+a*(targetY-parseFloat(box.style.top))+"px";
 
             //정보출력 
             h1.innerText="targetX:"+targetX+" \ntargetY:"+targetY;
